@@ -60,7 +60,7 @@ jobs:
          name: Invalidate Cloudfront distribution
          command: ~/.local/bin/aws cloudfront create-invalidation --distribution-id E11TVH55VMGXWP --paths "/*"
 
-deploy-beta:
+ deploy-beta:
    docker:
      - image: circleci/python:3.6
 
