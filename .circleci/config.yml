@@ -39,26 +39,26 @@ jobs:
          paths:
            - build/*
 
-#  deploy-production:
-#    docker:
-#      - image: circleci/python:3.6
+ deploy-production:
+   docker:
+     - image: circleci/python:3.6
 
-#    work_directory: /tmp/my-project
-#    steps:
-#      - attach_workspace:
-#          at: /tmp/my-project
+   work_directory: /tmp/my-project
+   steps:
+     - attach_workspace:
+         at: /tmp/my-project
 
-#      - run:
-#          name: Install AWS CLI
-#          command: pip install awscli --user
+     - run:
+         name: Install AWS CLI
+         command: pip install awscli --user
 
-#      - run:
-#          name: Deploy to S3 if the build is successful
-#          command: ~/.local/bin/aws s3 sync --acl public-read /tmp/my-project/build/ s3://circleci-20200711 --delete
+     - run:
+         name: Deploy to S3 if the build is successful
+         command: ~/.local/bin/aws s3 sync --acl public-read /tmp/my-project/build/ s3://circleci-20200711 --delete
        
-#      - run:
-#          name: Invalidate Cloudfront distribution
-#          command: ~/.local/bin/aws cloudfront create-invalidation --distribution-id E11TVH55VMGXWP --paths "/*"
+     - run:
+         name: Invalidate Cloudfront distribution
+         command: ~/.local/bin/aws cloudfront create-invalidation --distribution-id E11TVH55VMGXWP --paths "/*"
 
 deploy-beta:
    docker:
@@ -86,12 +86,12 @@ workflows:
  build-deploy:
    jobs:
      - build
-    #  - deploy-production:
-    #      requires:
-    #        - build
-    #      filters:
-    #        branches:
-    #          only: master
+     - deploy-production:
+         requires:
+           - build
+         filters:
+           branches:
+             only: master
      - deploy-beta:
          requires:
            - build
